@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<template id="__bundler_thumbnail">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#FBF6EC"/><rect x="20" y="24" width="26" height="52" rx="2.5" fill="#141414"/><rect x="54" y="24" width="26" height="52" rx="2.5" fill="#C8102E"/></svg>
+</template>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;600;700&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { background: #2b2b2b; font-family: 'Archivo', sans-serif; }
+  [contenteditable]:focus { outline: 2px dashed #C8102E; outline-offset: 2px; border-radius: 2px; }
+  [contenteditable]:hover:not(:focus) { outline: 1px dashed rgba(200,16,46,.45); outline-offset: 2px; border-radius: 2px; }
+  @media print {
+    body { background: #fff; }
+    .no-print { display: none !important; }
+    .wrap { padding: 0 !important; min-height: 0 !important; display: flex !important; align-items: center; justify-content: center; height: 100vh; gap: 0 !important; }
+    .taglabel { display: none !important; }
+    .tagrow { gap: 0.16in !important; transform: scale(0.9); transform-origin: center; }
+    .tag { box-shadow: none !important; outline: 1px dashed #999; outline-offset: 0.1in; }
+    [contenteditable]:hover, [contenteditable]:focus { outline: none !important; }
+    body.single .tagrow { transform: none !important; gap: 0 !important; }
+    body.single-a [data-col="b"], body.single-b [data-col="a"] { display: none !important; }
+    body.exact4 .wrap { padding: 0 !important; height: 4in !important; }
+    body.exact4 .tag { height: 4in !important; outline: none !important; }
+    body.exact4 .tagrow { transform: none !important; gap: 0 !important; }
+  }
+</style>
+<style id="dyn-page">@page { size: 5in 8in; margin: 0; }</style>
+</helmet>
+
+<div class="wrap" style="min-height:100vh; display:flex; flex-direction:column; align-items:center; gap:22px; padding:26px 16px 60px;">
+
+  <div class="no-print" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center; background:#1a1a1a; border:1px solid #3a3a3a; border-radius:12px; padding:12px 16px;">
+    <span style="color:#f2ece0; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.14em; text-transform:uppercase; margin-right:6px;">Two Shelf Tags &mdash; edit each, print both on 5&times;8</span>
+    <button onClick="{{ onPrint }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:#fff; background:#C8102E; border:none; border-radius:8px; padding:9px 18px;">Print both (5&times;8)</button>
+    <button onClick="{{ onPrintA }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:#141414; background:#e6ddc9; border:none; border-radius:8px; padding:9px 14px;">Print A only</button>
+    <button onClick="{{ onPrintB }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:#141414; background:#e6ddc9; border:none; border-radius:8px; padding:9px 14px;">Print B only</button>
+    <button onClick="{{ onToggleSize }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:#141414; background:#C8A54B; border:none; border-radius:8px; padding:9px 14px;">{{ sizeLabel }}</button>
+    <button onClick="{{ onExample }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:15px; letter-spacing:.06em; text-transform:uppercase; color:#f2ece0; background:#333; border:1px solid #4a4a4a; border-radius:8px; padding:9px 16px;">Load example</button>
+    <button onClick="{{ onBlank }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:15px; letter-spacing:.06em; text-transform:uppercase; color:#f2ece0; background:#333; border:1px solid #4a4a4a; border-radius:8px; padding:9px 16px;">Blank both</button>
+    <span style="width:1px; height:24px; background:#3a3a3a;"></span>
+    <button onClick="{{ onArrange }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:#141414; background:#f2ece0; border:none; border-radius:8px; padding:9px 16px;">{{ arrangeLabel }}</button>
+    <button onClick="{{ onReset }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:15px; letter-spacing:.06em; text-transform:uppercase; color:#f2ece0; background:#333; border:1px solid #4a4a4a; border-radius:8px; padding:9px 16px;">Reset layout</button>
+  </div>
+
+  <div class="tagrow" style="display:flex; align-items:flex-start; gap:0.5in; transform:scale({{ scale }}); transform-origin:top center;">
+
+    <!-- TAG A -->
+    <div data-col="a" style="display:flex; flex-direction:column; align-items:center; gap:10px;">
+      <span class="taglabel" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; letter-spacing:.22em; text-transform:uppercase; color:#8f877a;">Tag A</span>
+      <div class="tag" data-tag="a" style="width:2.5in; height:4.5in; background:#FBF6EC; box-shadow:0 20px 46px rgba(0,0,0,.5); display:flex; flex-direction:column; overflow:hidden;">
+        <div data-move="header" style="background:#141414; color:#FBF6EC; padding:7px 8px; display:flex; align-items:center; justify-content:center; gap:7px; border-bottom:3px solid #C8102E;">
+          <span style="color:#C8102E; font-size:11px;">&#9670;</span>
+          <span data-field="store" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.1em; text-transform:uppercase; line-height:1; text-align:center;">The Tap House</span>
+          <span style="color:#C8102E; font-size:11px;">&#9670;</span>
+        </div>
+        <div style="flex:1; min-height:0; overflow:hidden; display:flex; flex-direction:column; padding:12px 11px;">
+          <div data-move="product" data-field="product" contenteditable="true" style="height:54px; display:flex; align-items:center; justify-content:center; text-align:center; font-family:'Anton',sans-serif; font-size:25px; line-height:0.94; text-transform:uppercase; color:#141414; text-wrap:balance;">Gran Centenario Plata</div>
+          <span style="display:block; box-sizing:border-box; width:100%; margin-top:8px; background:#C8102E; color:#fff; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:22px; letter-spacing:.06em; text-transform:uppercase; padding:4px 11px; border-radius:999px; text-align:center; line-height:1.1;">Save $<span data-field="save" contenteditable="true">10</span></span>
+          <div data-move="pricerow" style="display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:8px; margin-top:8px;">
+            <span style="flex:none; background:#141414; color:#FBF6EC; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:16px; letter-spacing:.05em; text-transform:uppercase; padding:3px 10px; border-radius:4px;"><span data-field="size" contenteditable="true">750 ml</span></span>
+            <span style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:19px; color:#6a6258; white-space:nowrap; text-decoration:line-through; text-decoration-thickness:2px; text-decoration-color:#C8102E;">$<span data-field="was" contenteditable="true">34.99</span></span>
+          </div>
+          <div class="cashbox" data-move="cashbox" style="flex:1 1 auto; min-height:0; overflow:hidden; margin-top:10px; background:#141414; border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:8px;">
+            <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:16px; letter-spacing:.26em; text-transform:uppercase; color:#FBF6EC;">Cash Price</div>
+            <div style="display:flex; align-items:flex-start; color:#fff; line-height:0.78;">
+              <span style="font-family:'Anton',sans-serif; font-size:28px; margin-top:6px; color:#C8102E;">$</span>
+              <span data-field="cash" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:52px;">24.99</span>
+            </div>
+            <div style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#9a9284;">Pay with cash &amp; save</div>
+          </div>
+          <div style="flex:0 0 14px;"></div>
+        </div>
+        <div data-move="footer" style="background:#C8102E; color:#fff; padding:8px 11px;">
+          <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.06em; text-transform:uppercase; line-height:1.1;">Card Price&nbsp; $<span data-field="card" contenteditable="true">25.49</span></div>
+          <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-top:2px;">
+            <span style="font-family:'Archivo',sans-serif; font-weight:500; font-size:9px; letter-spacing:.01em; opacity:.92;">Card price differs from cash price.</span>
+            <span style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:10px; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap;">SKU <span data-field="sku" contenteditable="true">000000</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAG B -->
+    <div data-col="b" style="display:flex; flex-direction:column; align-items:center; gap:10px;">
+      <span class="taglabel" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; letter-spacing:.22em; text-transform:uppercase; color:#8f877a;">Tag B</span>
+      <div class="tag" data-tag="b" style="width:2.5in; height:4.5in; background:#FBF6EC; box-shadow:0 20px 46px rgba(0,0,0,.5); display:flex; flex-direction:column; overflow:hidden;">
+        <div data-move="header" style="background:#141414; color:#FBF6EC; padding:7px 8px; display:flex; align-items:center; justify-content:center; gap:7px; border-bottom:3px solid #C8102E;">
+          <span style="color:#C8102E; font-size:11px;">&#9670;</span>
+          <span data-field="store" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.1em; text-transform:uppercase; line-height:1; text-align:center;">The Tap House</span>
+          <span style="color:#C8102E; font-size:11px;">&#9670;</span>
+        </div>
+        <div style="flex:1; min-height:0; overflow:hidden; display:flex; flex-direction:column; padding:12px 11px;">
+          <div data-move="product" data-field="product" contenteditable="true" style="height:54px; display:flex; align-items:center; justify-content:center; text-align:center; font-family:'Anton',sans-serif; font-size:25px; line-height:0.94; text-transform:uppercase; color:#141414; text-wrap:balance;">Woodford Reserve Bourbon</div>
+          <span style="display:block; box-sizing:border-box; width:100%; margin-top:8px; background:#C8102E; color:#fff; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:22px; letter-spacing:.06em; text-transform:uppercase; padding:4px 11px; border-radius:999px; text-align:center; line-height:1.1;">Save $<span data-field="save" contenteditable="true">7</span></span>
+          <div data-move="pricerow" style="display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:8px; margin-top:8px;">
+            <span style="flex:none; background:#141414; color:#FBF6EC; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:16px; letter-spacing:.05em; text-transform:uppercase; padding:3px 10px; border-radius:4px;"><span data-field="size" contenteditable="true">750 ml</span></span>
+            <span style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:19px; color:#6a6258; white-space:nowrap; text-decoration:line-through; text-decoration-thickness:2px; text-decoration-color:#C8102E;">$<span data-field="was" contenteditable="true">44.99</span></span>
+          </div>
+          <div class="cashbox" data-move="cashbox" style="flex:1 1 auto; min-height:0; overflow:hidden; margin-top:10px; background:#141414; border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:8px;">
+            <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:16px; letter-spacing:.26em; text-transform:uppercase; color:#FBF6EC;">Cash Price</div>
+            <div style="display:flex; align-items:flex-start; color:#fff; line-height:0.78;">
+              <span style="font-family:'Anton',sans-serif; font-size:28px; margin-top:6px; color:#C8102E;">$</span>
+              <span data-field="cash" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:52px;">37.99</span>
+            </div>
+            <div style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#9a9284;">Pay with cash &amp; save</div>
+          </div>
+          <div style="flex:0 0 14px;"></div>
+        </div>
+        <div data-move="footer" style="background:#C8102E; color:#fff; padding:8px 11px;">
+          <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.06em; text-transform:uppercase; line-height:1.1;">Card Price&nbsp; $<span data-field="card" contenteditable="true">38.79</span></div>
+          <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-top:2px;">
+            <span style="font-family:'Archivo',sans-serif; font-weight:500; font-size:9px; letter-spacing:.01em; opacity:.92;">Card price differs from cash price.</span>
+            <span style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:10px; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap;">SKU <span data-field="sku" contenteditable="true">000000</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;scale&quot;: { &quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 1, &quot;min&quot;: 0.4, &quot;max&quot;: 2, &quot;step&quot;: 0.1, &quot;unit&quot;: &quot;x&quot;, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Preview&quot;, &quot;label&quot;: &quot;Preview size&quot; },
+  &quot;cashBoxHeight&quot;: { &quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 168, &quot;min&quot;: 120, &quot;max&quot;: 190, &quot;step&quot;: 4, &quot;unit&quot;: &quot;px&quot;, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Cash price box&quot;, &quot;label&quot;: &quot;Black box height&quot; }
+}">
+class Component extends DCLogic {
+  exampleA() { return { store:"The Tap House", product:"Gran Centenario Plata", size:"750 ml", was:"34.99", save:"10", cash:"24.99", card:"25.49", sku:"000000" }; }
+  exampleB() { return { store:"The Tap House", product:"Woodford Reserve Bourbon", size:"750 ml", was:"44.99", save:"7", cash:"37.99", card:"38.79", sku:"000000" }; }
+
+  state = { arrange: false, singleSize: '5x8' };
+
+  componentDidMount() {
+    this.applyCashBox();
+    ['a','b'].forEach(t => {
+      const saved = this.load(t);
+      this.fieldsFor(t).forEach(f => {
+        const k = f.getAttribute('data-field');
+        if (saved && saved[k] != null) f.textContent = saved[k];
+        f.addEventListener('input', () => this.save(t));
+        f.addEventListener('blur', () => this.save(t));
+      });
+      this.applyPositions(t);
+      this.movesFor(t).forEach(el => el.addEventListener('pointerdown', e => this.startDrag(e, el, t)));
+    });
+  }
+
+  componentDidUpdate() { this.applyCashBox(); ['a','b'].forEach(t => this.applyPositions(t)); }
+
+  movesFor(t) { const el = document.querySelector('.tag[data-tag="' + t + '"]'); return el ? Array.from(el.querySelectorAll('[data-move]')) : []; }
+  posKey(t) { return 'shelfTagPos_' + t; }
+  getPos(t) { try { return JSON.parse(localStorage.getItem(this.posKey(t)) || '{}'); } catch(e){ return {}; } }
+  savePos(t, p) { try { localStorage.setItem(this.posKey(t), JSON.stringify(p)); } catch(e){} }
+  applyPositions(t) {
+    const pos = this.getPos(t);
+    this.movesFor(t).forEach(el => {
+      const id = el.getAttribute('data-move');
+      const p = pos[id];
+      el.style.transform = p ? `translate(${p.x}px, ${p.y}px)` : '';
+      el.style.cursor = this.state.arrange ? 'grab' : '';
+      if (this.state.arrange) el.style.touchAction = 'none';
+    });
+  }
+  startDrag(e, el, t) {
+    if (!this.state.arrange) return;
+    e.preventDefault(); e.stopPropagation();
+    const id = el.getAttribute('data-move');
+    const pos = this.getPos(t);
+    const cur = pos[id] || { x: 0, y: 0 };
+    const sx = e.clientX, sy = e.clientY, sc = this.props.scale ?? 1;
+    el.style.cursor = 'grabbing';
+    const move = ev => {
+      const nx = cur.x + (ev.clientX - sx) / sc, ny = cur.y + (ev.clientY - sy) / sc;
+      el.style.transform = `translate(${nx}px, ${ny}px)`;
+      el.__p = { x: nx, y: ny };
+    };
+    const up = () => {
+      document.removeEventListener('pointermove', move);
+      document.removeEventListener('pointerup', up);
+      el.style.cursor = 'grab';
+      pos[id] = el.__p || cur; this.savePos(t, pos);
+    };
+    document.addEventListener('pointermove', move);
+    document.addEventListener('pointerup', up);
+  }
+  toggleArrange() {
+    const on = !this.state.arrange;
+    this.setState({ arrange: on });
+    document.querySelectorAll('[data-field]').forEach(f => f.setAttribute('contenteditable', on ? 'false' : 'true'));
+  }
+  resetLayout() { ['a','b'].forEach(t => { localStorage.removeItem(this.posKey(t)); this.applyPositions(t); }); }
+  applyCashBox() {
+    const h = this.props.cashBoxHeight ?? 168;
+    document.querySelectorAll('.cashbox').forEach(el => { el.style.maxHeight = h + 'px'; });
+  }
+
+  setPage(size) { const s = document.getElementById('dyn-page'); if (s) s.textContent = '@page { size: ' + size + '; margin: 0; }'; }
+  printSingle(t) {
+    const exact = this.state.singleSize === 'exact';
+    this.setPage(exact ? '2.5in 4in' : '5in 8in');
+    document.body.classList.add('single', 'single-' + t);
+    if (exact) document.body.classList.add('exact4');
+    const done = () => {
+      document.body.classList.remove('single', 'single-a', 'single-b', 'exact4');
+      this.setPage('5in 8in');
+      window.removeEventListener('afterprint', done);
+    };
+    window.addEventListener('afterprint', done);
+    window.print();
+    setTimeout(done, 1500);
+  }
+
+  fieldsFor(t) { const el = document.querySelector('.tag[data-tag="' + t + '"]'); return el ? Array.from(el.querySelectorAll('[data-field]')) : []; }
+  read(t) { const o = {}; this.fieldsFor(t).forEach(f => o[f.getAttribute('data-field')] = f.textContent.trim()); return o; }
+  save(t) { try { localStorage.setItem('shelfTag_' + t, JSON.stringify(this.read(t))); } catch(e){} }
+  load(t) { try { return JSON.parse(localStorage.getItem('shelfTag_' + t) || 'null'); } catch(e){ return null; } }
+  apply(t, vals) { this.fieldsFor(t).forEach(f => { const k = f.getAttribute('data-field'); if (vals[k] != null) f.textContent = vals[k]; }); this.save(t); }
+
+  renderVals() {
+    const blank = { store:'Store Name', product:'Product Name', size:'750 ml', was:'0.00', save:'0', cash:'0.00', card:'0.00', sku:'000000' };
+    return {
+      scale: this.props.scale ?? 1,
+      arrangeLabel: this.state.arrange ? 'Done moving' : 'Move fields',
+      sizeLabel: this.state.singleSize === 'exact' ? 'Single on 2.5\u00d74' : 'Single on 5\u00d78',
+      onToggleSize: () => this.setState(s => ({ singleSize: s.singleSize === 'exact' ? '5x8' : 'exact' })),
+      onArrange: () => this.toggleArrange(),
+      onReset: () => this.resetLayout(),
+      onPrint: () => { this.setPage('5in 8in'); window.print(); },
+      onPrintA: () => this.printSingle('a'),
+      onPrintB: () => this.printSingle('b'),
+      onExample: () => { this.apply('a', this.exampleA()); this.apply('b', this.exampleB()); },
+      onBlank: () => { this.apply('a', blank); this.apply('b', blank); },
+    };
+  }
+}
+</script>
+</body>
+</html>

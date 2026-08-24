@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;600;700&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { background: #2b2b2b; font-family: 'Archivo', sans-serif; }
+  a { color: #C8102E; }
+  a:hover { color: #8f0a20; }
+  [contenteditable]:focus { outline: 2px dashed #C8102E; outline-offset: 3px; border-radius: 2px; }
+  [contenteditable]:hover:not(:focus) { outline: 1px dashed rgba(200,16,46,.45); outline-offset: 3px; border-radius: 2px; }
+  @page { size: 8.5in 11in; margin: 0; }
+  @media print {
+    body { background: #fff; }
+    .no-print { display: none !important; }
+    .wrap { padding: 0 !important; min-height: 0 !important; display: block !important; gap: 0 !important; }
+    .flap { margin: 0 auto !important; }
+    .sign { box-shadow: none !important; margin: 0 auto !important; }
+    [contenteditable]:hover, [contenteditable]:focus { outline: none !important; }
+  }
+</style>
+</helmet>
+
+<div class="wrap" style="min-height:100vh; display:flex; flex-direction:column; align-items:center; gap:22px; padding:26px 16px 60px;">
+
+  <div class="no-print" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center; background:#1a1a1a; border:1px solid #3a3a3a; border-radius:12px; padding:12px 16px;">
+    <span style="color:#f2ece0; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.14em; text-transform:uppercase; margin-right:6px;">Points Sign &mdash; Vertical &mdash; click any text to edit</span>
+    <button onClick="{{ onMult }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:#141414; background:#C8A54B; border:none; border-radius:8px; padding:9px 16px;">Multiplier mode</button>
+    <button onClick="{{ onBonus }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:#141414; background:#C8A54B; border:none; border-radius:8px; padding:9px 16px;">Bonus mode</button>
+    <button onClick="{{ onPrint }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:#fff; background:#C8102E; border:none; border-radius:8px; padding:9px 18px;">Print / Save PDF</button>
+    <button onClick="{{ onExample }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:15px; letter-spacing:.06em; text-transform:uppercase; color:#f2ece0; background:#333; border:1px solid #4a4a4a; border-radius:8px; padding:9px 16px;">Load example</button>
+    <button onClick="{{ onBlank }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:15px; letter-spacing:.06em; text-transform:uppercase; color:#f2ece0; background:#333; border:1px solid #4a4a4a; border-radius:8px; padding:9px 16px;">Blank template</button>
+  </div>
+
+  <div class="flap" style="width:7.7in; height:1.5in; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding-bottom:6px; gap:6px;">
+    <span style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px; letter-spacing:.28em; text-transform:uppercase; color:#b9b1a4;">Fold here &mdash; tuck under display box</span>
+    <div style="width:100%; border-top:2px dashed #cfc7b8;"></div>
+  </div>
+
+  <div class="sign" style="width:7.7in; height:8.7in; background:#FBF6EC; box-shadow:0 24px 60px rgba(0,0,0,.5); display:flex; flex-direction:column; overflow:hidden; position:relative;">
+
+    <div style="background:#141414; color:#FBF6EC; padding:0.16in 0.4in; display:flex; align-items:center; justify-content:center; gap:12px;">
+      <span style="color:#C8102E; font-size:22px;">&#9670;</span>
+      <span data-field="store" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:32px; letter-spacing:.16em; text-transform:uppercase; line-height:1; text-align:center;">The Tap House</span>
+      <span style="color:#C8102E; font-size:22px;">&#9670;</span>
+    </div>
+
+    <div style="background:#C8A54B; color:#141414; padding:0.1in 0.4in; display:flex; align-items:center; justify-content:center; gap:14px; border-top:3px solid #141414; border-bottom:3px solid #141414;">
+      <span style="font-size:17px;">&#10022;</span>
+      <span data-field="program" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:26px; letter-spacing:.22em; text-transform:uppercase; line-height:1;">Bourbon Points Club</span>
+      <span style="font-size:17px;">&#10022;</span>
+    </div>
+
+    <div style="flex:1; display:flex; flex-direction:column; padding:0.22in 0.45in 0; min-height:0;">
+
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:14px;">
+        <div data-field="product" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:44px; line-height:0.96; text-transform:uppercase; color:#141414; letter-spacing:.005em; text-wrap:balance; max-width:5in;">Elijah Craig Small Batch</div>
+        <div style="flex:none; background:#141414; color:#FBF6EC; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:24px; letter-spacing:.06em; text-transform:uppercase; padding:6px 14px; border-radius:6px; white-space:nowrap;"><span data-field="size" contenteditable="true">750 ml</span></div>
+      </div>
+
+      <div style="flex:1; min-height:0; margin-top:0.18in; background:#141414; border-radius:16px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; padding:0.24in 0.3in; position:relative;">
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:36px; letter-spacing:.34em; text-transform:uppercase; color:#FBF6EC; margin-bottom:14px;">Earn</div>
+
+        <sc-if value="{{ isMult }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex; align-items:baseline; color:#C8A54B; line-height:0.8;">
+            <span data-field="mult" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:172px;">10</span>
+            <span style="font-family:'Anton',sans-serif; font-size:110px;">X</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isBonus }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex; align-items:baseline; color:#C8A54B; line-height:0.8;">
+            <span style="font-family:'Anton',sans-serif; font-size:110px;">+</span>
+            <span data-field="bonus" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:172px;">500</span>
+          </div>
+        </sc-if>
+
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:44px; letter-spacing:.2em; text-transform:uppercase; color:#FBF6EC; margin-top:18px;"><sc-if value="{{ isBonus }}" hint-placeholder-val="{{ false }}"><span>Bonus&nbsp;</span></sc-if>Points</div>
+        <div data-field="dates" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:22px; letter-spacing:.18em; text-transform:uppercase; color:#8f877a; margin-top:10px; text-align:center;">This month only &mdash; July 1&ndash;31</div>
+      </div>
+
+      <div style="flex:none; display:flex; align-items:stretch; gap:0.16in; margin-top:0.18in;">
+        <div style="flex:1; background:#141414; border-radius:12px; display:flex; align-items:center; justify-content:center; gap:16px; padding:0.14in 0.2in;">
+          <span style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:24px; letter-spacing:.18em; text-transform:uppercase; color:#FBF6EC;">Cash Price</span>
+          <span style="display:flex; align-items:flex-start; color:#fff; line-height:0.8;">
+            <span style="font-family:'Anton',sans-serif; font-size:30px; margin-top:5px; color:#C8102E;">$</span>
+            <span data-field="cash" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:64px;">32.99</span>
+          </span>
+        </div>
+      </div>
+
+      <div style="flex:none; display:flex; align-items:center; justify-content:center; gap:10px; padding:0.13in 0 0.12in;">
+        <span style="color:#C8102E; font-size:16px;">&#10022;</span>
+        <span data-field="enroll" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:23px; letter-spacing:.1em; text-transform:uppercase; color:#141414;">Ask a cashier to enroll &mdash; it&rsquo;s free</span>
+        <span style="color:#C8102E; font-size:16px;">&#10022;</span>
+      </div>
+
+    </div>
+
+    <div style="background:#C8102E; color:#fff; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:0.16in 0.4in;">
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:24px; letter-spacing:.1em; text-transform:uppercase; line-height:1.05;">Card Price&nbsp; $<span data-field="card" contenteditable="true">33.49</span></div>
+        <div style="font-family:'Archivo',sans-serif; font-weight:500; font-size:13px; letter-spacing:.02em; opacity:.92;">Card price differs from the cash price shown above. <span data-field="terms" contenteditable="true">Limits apply.</span></div>
+      </div>
+      <div style="text-align:right; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:16px; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap;">SKU&nbsp; <span data-field="sku" contenteditable="true">000000</span></div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;mult&quot;,&quot;bonus&quot;],&quot;default&quot;:&quot;mult&quot;,&quot;tsType&quot;:&quot;'mult' | 'bonus'&quot;}}">
+class Component extends DCLogic {
+  state = { mode: null };
+
+  example() {
+    return { store: "The Tap House", program: "Bourbon Points Club", product: "Elijah Craig Small Batch",
+      size: "750 ml", mult: "10", bonus: "500", cash: "32.99", card: "33.49", sku: "000000",
+      dates: "This month only \u2014 July 1\u201331", enroll: "Ask a cashier to enroll \u2014 it\u2019s free", terms: "Limits apply." };
+  }
+  blank() {
+    return { store: "Store Name", program: "Bourbon Points Club", product: "Product Name", size: "750 ml",
+      mult: "10", bonus: "500", cash: "0.00", card: "0.00", sku: "000000", dates: "Dates here",
+      enroll: "Ask a cashier to enroll \u2014 it\u2019s free", terms: "Limits apply." };
+  }
+
+  componentDidMount() {
+    const saved = this.load();
+    if (saved && saved.__mode) this.setState({ mode: saved.__mode });
+    this.fieldsList().forEach(f => {
+      const k = f.getAttribute('data-field');
+      if (saved && saved[k] != null) f.textContent = saved[k];
+      f.addEventListener('input', () => this.save());
+      f.addEventListener('blur', () => this.save());
+    });
+  }
+
+  fieldsList() { return Array.from(document.querySelectorAll('[data-field]')); }
+  read() { const o = Object.assign({}, this.load() || {}, { __mode: this.state.mode ?? this.props.mode ?? 'mult' }); this.fieldsList().forEach(f => o[f.getAttribute('data-field')] = f.textContent.trim()); return o; }
+  seed() {
+    const saved = this.load(); if (!saved) return;
+    this.fieldsList().forEach(f => { const k = f.getAttribute('data-field'); if (saved[k] != null && f.textContent.trim() !== saved[k]) f.textContent = saved[k]; });
+  }
+  componentDidUpdate() { this.seed(); }
+  save() { try { localStorage.setItem('bourbonPointsV', JSON.stringify(this.read())); } catch(e){} }
+  load() { try { return JSON.parse(localStorage.getItem('bourbonPointsV') || 'null'); } catch(e){ return null; } }
+  apply(vals) { this.fieldsList().forEach(f => { const k = f.getAttribute('data-field'); if (vals[k] != null) f.textContent = vals[k]; }); this.save(); }
+  setMode(m) { this.save(); this.setState({ mode: m }, () => { this.seed(); this.save(); }); }
+
+  renderVals() {
+    const mode = this.state.mode ?? this.props.mode ?? 'mult';
+    return {
+      isMult: mode === 'mult',
+      isBonus: mode === 'bonus',
+      onMult: () => this.setMode('mult'),
+      onBonus: () => this.setMode('bonus'),
+      onPrint: () => window.print(),
+      onExample: () => this.apply(this.example()),
+      onBlank: () => this.apply(this.blank()),
+    };
+  }
+}
+</script>
+</body>
+</html>

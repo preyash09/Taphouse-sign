@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<template id="__bundler_thumbnail">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#141414"/><rect x="14" y="38" width="72" height="24" rx="4" fill="#C8A54B"/><text x="50" y="57" font-family="Arial Black,Arial" font-size="19" font-weight="900" fill="#141414" text-anchor="middle">10X</text></svg>
+</template>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;600;700&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style id="dyn-page">@page { size: 8.5in 11in; margin: 0; }</style>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { background: #2b2b2b; font-family: 'Archivo', sans-serif; }
+  a { color: #C8102E; }
+  a:hover { color: #8f0a20; }
+  [contenteditable]:focus { outline: 2px dashed #C8102E; outline-offset: 3px; border-radius: 2px; }
+  [contenteditable]:hover:not(:focus) { outline: 1px dashed rgba(200,16,46,.45); outline-offset: 3px; border-radius: 2px; }
+  @media print {
+    body { background: #fff; }
+    .no-print { display: none !important; }
+    .wrap { padding: 0 !important; min-height: 0 !important; display: block !important; gap: 0 !important; }
+    .flap { margin: 0 auto !important; }
+    .sign { box-shadow: none !important; margin: 0 auto !important; }
+    body.size-tag .wrap { height: 8in; display: flex !important; align-items: center; justify-content: center; }
+    .taglabel { display: none !important; }
+    .tagflap { margin: 0 auto !important; }
+    .tag { box-shadow: none !important; outline: none !important; }
+    .tagcut { outline: 1px dashed #999; outline-offset: 0.1in; }
+    [contenteditable]:hover, [contenteditable]:focus { outline: none !important; }
+  }
+</style>
+</helmet>
+
+<div class="wrap" style="min-height:100vh; display:flex; flex-direction:column; align-items:center; gap:22px; padding:26px 16px 60px;">
+
+  <div class="no-print" style="display:flex; flex-direction:column; align-items:center; gap:12px; background:#1a1a1a; border:1px solid #3a3a3a; border-radius:12px; padding:14px 18px;">
+    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center;">
+      <span style="color:#8f877a; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:14px; letter-spacing:.18em; text-transform:uppercase;">Size</span>
+      <button onClick="{{ onVertical }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:#141414; background:#e6ddc9; border:none; border-radius:8px; padding:9px 16px;">Vertical &middot; 8.5&times;11</button>
+      <button onClick="{{ onHorizontal }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:#141414; background:#e6ddc9; border:none; border-radius:8px; padding:9px 16px;">Horizontal &middot; 11&times;8.5</button>
+      <button onClick="{{ onTag }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:#141414; background:#e6ddc9; border:none; border-radius:8px; padding:9px 16px;">Tag &middot; 2.5&times;4</button>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center;">
+      <span style="color:#8f877a; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:14px; letter-spacing:.18em; text-transform:uppercase;">Offer</span>
+      <button onClick="{{ onMult }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:#141414; background:#C8A54B; border:none; border-radius:8px; padding:9px 16px;">Multiplier</button>
+      <button onClick="{{ onBonus }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:#141414; background:#C8A54B; border:none; border-radius:8px; padding:9px 16px;">Bonus</button>
+      <button onClick="{{ onPrint }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:#fff; background:#C8102E; border:none; border-radius:8px; padding:9px 18px;">Print / Save PDF</button>
+      <button onClick="{{ onExample }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:15px; letter-spacing:.06em; text-transform:uppercase; color:#f2ece0; background:#333; border:1px solid #4a4a4a; border-radius:8px; padding:9px 16px;">Load example</button>
+      <button onClick="{{ onBlank }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:15px; letter-spacing:.06em; text-transform:uppercase; color:#f2ece0; background:#333; border:1px solid #4a4a4a; border-radius:8px; padding:9px 16px;">Blank</button>
+    </div>
+    <span style="color:#b9b1a4; font-family:'Archivo',sans-serif; font-size:13px; text-align:center;">Click any text to edit. Your wording carries across all three sizes &mdash; type once, print any size.</span>
+  </div>
+
+  <sc-if value="{{ isVertical }}" hint-placeholder-val="{{ true }}">
+  <div style="display:flex; flex-direction:column; align-items:center; gap:22px;">
+    <div class="flap" style="width:7.7in; height:1.5in; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding-bottom:6px; gap:6px;">
+      <span style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px; letter-spacing:.28em; text-transform:uppercase; color:#b9b1a4;">Fold here &mdash; tuck under display box</span>
+      <div style="width:100%; border-top:2px dashed #cfc7b8;"></div>
+    </div>
+
+    <div class="sign" style="width:7.7in; height:8.7in; background:#FBF6EC; box-shadow:0 24px 60px rgba(0,0,0,.5); display:flex; flex-direction:column; overflow:hidden;">
+      <div style="background:#141414; color:#FBF6EC; padding:0.16in 0.4in; display:flex; align-items:center; justify-content:center; gap:12px;">
+        <span style="color:#C8102E; font-size:22px;">&#9670;</span>
+        <span data-field="store" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:32px; letter-spacing:.16em; text-transform:uppercase; line-height:1; text-align:center;">The Tap House</span>
+        <span style="color:#C8102E; font-size:22px;">&#9670;</span>
+      </div>
+      <div style="background:#C8A54B; color:#141414; padding:0.1in 0.4in; display:flex; align-items:center; justify-content:center; gap:14px; border-top:3px solid #141414; border-bottom:3px solid #141414;">
+        <span style="font-size:17px;">&#10022;</span>
+        <span data-field="program" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:26px; letter-spacing:.22em; text-transform:uppercase; line-height:1;">Bourbon Points Club</span>
+        <span style="font-size:17px;">&#10022;</span>
+      </div>
+      <div style="flex:1; display:flex; flex-direction:column; padding:0.22in 0.45in 0; min-height:0;">
+        <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:14px;">
+          <div data-field="product" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:44px; line-height:0.96; text-transform:uppercase; color:#141414; letter-spacing:.005em; text-wrap:balance; max-width:5in;">Elijah Craig Small Batch</div>
+          <div style="flex:none; background:#141414; color:#FBF6EC; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:24px; letter-spacing:.06em; text-transform:uppercase; padding:6px 14px; border-radius:6px; white-space:nowrap;"><span data-field="size" contenteditable="true">750 ml</span></div>
+        </div>
+        <div style="flex:1; min-height:0; margin-top:0.18in; background:#141414; border-radius:16px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0.24in 0.3in;">
+          <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:36px; letter-spacing:.34em; text-transform:uppercase; color:#FBF6EC; margin-bottom:14px;">Earn</div>
+          <sc-if value="{{ isMult }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex; align-items:baseline; color:#C8A54B; line-height:0.8;">
+              <span data-field="mult" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:172px;">10</span>
+              <span style="font-family:'Anton',sans-serif; font-size:110px;">X</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isBonus }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex; align-items:baseline; color:#C8A54B; line-height:0.8;">
+              <span style="font-family:'Anton',sans-serif; font-size:110px;">+</span>
+              <span data-field="bonus" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:172px;">500</span>
+            </div>
+          </sc-if>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:44px; letter-spacing:.2em; text-transform:uppercase; color:#FBF6EC; margin-top:18px;"><sc-if value="{{ isBonus }}" hint-placeholder-val="{{ false }}"><span>Bonus&nbsp;</span></sc-if>Points</div>
+          <div data-field="dates" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:22px; letter-spacing:.18em; text-transform:uppercase; color:#8f877a; margin-top:10px; text-align:center;">This month only &mdash; July 1&ndash;31</div>
+        </div>
+        <div style="flex:none; background:#141414; border-radius:12px; display:flex; align-items:center; justify-content:center; gap:16px; padding:0.14in 0.2in; margin-top:0.18in;">
+          <span style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:24px; letter-spacing:.18em; text-transform:uppercase; color:#FBF6EC;">Cash Price</span>
+          <span style="display:flex; align-items:flex-start; color:#fff; line-height:0.8;">
+            <span style="font-family:'Anton',sans-serif; font-size:30px; margin-top:5px; color:#C8102E;">$</span>
+            <span data-field="cash" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:64px;">32.99</span>
+          </span>
+        </div>
+        <div style="flex:none; display:flex; align-items:center; justify-content:center; gap:10px; padding:0.13in 0 0.12in;">
+          <span style="color:#C8102E; font-size:16px;">&#10022;</span>
+          <span data-field="enroll" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:23px; letter-spacing:.1em; text-transform:uppercase; color:#141414;">Ask a cashier to enroll &mdash; it&rsquo;s free</span>
+          <span style="color:#C8102E; font-size:16px;">&#10022;</span>
+        </div>
+      </div>
+      <div style="background:#C8102E; color:#fff; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:0.16in 0.4in;">
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:24px; letter-spacing:.1em; text-transform:uppercase; line-height:1.05;">Card Price&nbsp; $<span data-field="card" contenteditable="true">33.49</span></div>
+          <div style="font-family:'Archivo',sans-serif; font-weight:500; font-size:13px; letter-spacing:.02em; opacity:.92;">Card price differs from the cash price shown above. <span data-field="terms" contenteditable="true">Limits apply.</span></div>
+        </div>
+        <div style="text-align:right; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:16px; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap;">SKU&nbsp; <span data-field="sku" contenteditable="true">000000</span></div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isHorizontal }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex; flex-direction:column; align-items:center; gap:22px;">
+    <div class="flap" style="width:10.4in; height:1.5in; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding-bottom:6px; gap:6px;">
+      <span style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px; letter-spacing:.28em; text-transform:uppercase; color:#b9b1a4;">Fold here &mdash; tuck under display box</span>
+      <div style="width:100%; border-top:2px dashed #cfc7b8;"></div>
+    </div>
+
+    <div class="sign" style="width:10.4in; height:6.7in; background:#FBF6EC; box-shadow:0 24px 60px rgba(0,0,0,.5); display:flex; flex-direction:column; overflow:hidden;">
+      <div style="background:#141414; color:#FBF6EC; padding:0.14in 0.5in; display:flex; align-items:center; justify-content:center; gap:14px;">
+        <span style="color:#C8102E; font-size:24px;">&#9670;</span>
+        <span data-field="store" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:36px; letter-spacing:.16em; text-transform:uppercase; line-height:1; text-align:center;">The Tap House</span>
+        <span style="color:#C8102E; font-size:24px;">&#9670;</span>
+      </div>
+      <div style="background:#C8A54B; color:#141414; padding:0.08in 0.5in; display:flex; align-items:center; justify-content:center; gap:16px; border-top:3px solid #141414; border-bottom:3px solid #141414;">
+        <span style="font-size:17px;">&#10022;</span>
+        <span data-field="program" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:26px; letter-spacing:.24em; text-transform:uppercase; line-height:1;">Bourbon Points Club</span>
+        <span style="font-size:17px;">&#10022;</span>
+      </div>
+      <div style="flex:1; display:flex; flex-direction:column; padding:0.2in 0.5in 0; min-height:0;">
+        <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:20px;">
+          <div data-field="product" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:54px; line-height:0.98; text-transform:uppercase; color:#141414; letter-spacing:.005em; max-width:6.6in; text-wrap:balance;">Elijah Craig Small Batch</div>
+          <div style="flex:none; background:#141414; color:#FBF6EC; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:28px; letter-spacing:.06em; text-transform:uppercase; padding:8px 18px; border-radius:6px; white-space:nowrap;"><span data-field="size" contenteditable="true">750 ml</span></div>
+        </div>
+        <div style="flex:1; min-height:0; display:flex; align-items:stretch; gap:0.34in; margin-top:0.16in; padding-bottom:0.16in;">
+          <div style="flex:1.35; background:#141414; border-radius:16px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0.2in 0.26in;">
+            <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:33px; letter-spacing:.34em; text-transform:uppercase; color:#FBF6EC; margin-bottom:12px;">Earn</div>
+            <sc-if value="{{ isMult }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex; align-items:baseline; color:#C8A54B; line-height:0.78;">
+                <span data-field="mult" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:150px;">10</span>
+                <span style="font-family:'Anton',sans-serif; font-size:96px;">X</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ isBonus }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex; align-items:baseline; color:#C8A54B; line-height:0.78;">
+                <span style="font-family:'Anton',sans-serif; font-size:96px;">+</span>
+                <span data-field="bonus" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:150px;">500</span>
+              </div>
+            </sc-if>
+            <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:38px; letter-spacing:.2em; text-transform:uppercase; color:#FBF6EC; margin-top:15px;"><sc-if value="{{ isBonus }}" hint-placeholder-val="{{ false }}"><span>Bonus&nbsp;</span></sc-if>Points</div>
+            <div data-field="dates" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:20px; letter-spacing:.18em; text-transform:uppercase; color:#8f877a; margin-top:10px; text-align:center;">This month only &mdash; July 1&ndash;31</div>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:0.16in;">
+            <div style="background:#141414; border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding:0.2in 0.24in;">
+              <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:26px; letter-spacing:.24em; text-transform:uppercase; color:#FBF6EC;">Cash Price</div>
+              <div style="display:flex; align-items:flex-start; color:#fff; line-height:0.8;">
+                <span style="font-family:'Anton',sans-serif; font-size:40px; margin-top:7px; color:#C8102E;">$</span>
+                <span data-field="cash" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:96px;">32.99</span>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:center; gap:10px;">
+              <span style="color:#C8102E; font-size:16px;">&#10022;</span>
+              <span data-field="enroll" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:22px; letter-spacing:.09em; text-transform:uppercase; color:#141414; text-align:center;">Ask a cashier to enroll &mdash; it&rsquo;s free</span>
+              <span style="color:#C8102E; font-size:16px;">&#10022;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#C8102E; color:#fff; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:0.16in 0.5in;">
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:26px; letter-spacing:.1em; text-transform:uppercase; line-height:1.05;">Card Price&nbsp; $<span data-field="card" contenteditable="true">33.49</span></div>
+          <div style="font-family:'Archivo',sans-serif; font-weight:500; font-size:14px; letter-spacing:.02em; opacity:.92;">Card price differs from the cash price shown above. <span data-field="terms" contenteditable="true">Limits apply.</span></div>
+        </div>
+        <div style="text-align:right; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:18px; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap;">SKU&nbsp; <span data-field="sku" contenteditable="true">000000</span></div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isTag }}" hint-placeholder-val="{{ false }}">
+  <div class="tagcut" style="display:flex; flex-direction:column; align-items:center; gap:12px;">
+    <span class="taglabel" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; letter-spacing:.22em; text-transform:uppercase; color:#8f877a;">2.5 &times; 4 in &mdash; one per 5&times;8 sheet, cut the outer line, fold the top tab</span>
+    <div class="tagflap" style="width:2.5in; height:0.9in; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding-bottom:0.18in; gap:5px;">
+      <span style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#b9b1a4;">Fold here &mdash; hangs over shelf edge</span>
+      <div style="width:100%; border-top:2px dashed #cfc7b8;"></div>
+    </div>
+    <div class="tag" style="width:2.5in; height:4in; background:#FBF6EC; box-shadow:0 18px 44px rgba(0,0,0,.5); display:flex; flex-direction:column; overflow:hidden;">
+      <div style="background:#141414; color:#FBF6EC; padding:5px 8px; display:flex; align-items:center; justify-content:center; gap:6px;">
+        <span style="color:#C8102E; font-size:9px;">&#9670;</span>
+        <span data-field="store" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; letter-spacing:.14em; text-transform:uppercase; line-height:1;">The Tap House</span>
+        <span style="color:#C8102E; font-size:9px;">&#9670;</span>
+      </div>
+      <div style="background:#C8A54B; color:#141414; padding:4px 6px; text-align:center; border-bottom:2px solid #141414;">
+        <span data-field="program" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12px; letter-spacing:.16em; text-transform:uppercase; line-height:1;">Bourbon Points Club</span>
+      </div>
+      <div style="flex:1; display:flex; flex-direction:column; padding:9px 11px 0; min-height:0;">
+        <div data-field="product" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:22px; line-height:0.96; text-transform:uppercase; color:#141414; text-wrap:balance;">Elijah Craig Small Batch</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#6a6258; margin-top:3px;"><span data-field="size" contenteditable="true">750 ml</span></div>
+        <div style="flex:1; min-height:0; margin-top:8px; background:#141414; border-radius:9px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px 6px;">
+          <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.3em; text-transform:uppercase; color:#FBF6EC; margin-bottom:5px;">Earn</div>
+          <sc-if value="{{ isMult }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex; align-items:baseline; color:#C8A54B; line-height:0.8;">
+              <span data-field="mult" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:66px;">10</span>
+              <span style="font-family:'Anton',sans-serif; font-size:42px;">X</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isBonus }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex; align-items:baseline; color:#C8A54B; line-height:0.8;">
+              <span style="font-family:'Anton',sans-serif; font-size:42px;">+</span>
+              <span data-field="bonus" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:66px;">500</span>
+            </div>
+          </sc-if>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:18px; letter-spacing:.16em; text-transform:uppercase; color:#FBF6EC; margin-top:8px;"><sc-if value="{{ isBonus }}" hint-placeholder-val="{{ false }}"><span>Bonus&nbsp;</span></sc-if>Points</div>
+          <div data-field="dates" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#8f877a; margin-top:6px; text-align:center;">July 1&ndash;31</div>
+        </div>
+        <div style="flex:none; display:flex; align-items:center; justify-content:center; gap:8px; background:#141414; border-radius:7px; padding:5px 8px; margin-top:7px;">
+          <span style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#FBF6EC;">Cash</span>
+          <span style="display:flex; align-items:flex-start; color:#fff; line-height:0.8;">
+            <span style="font-family:'Anton',sans-serif; font-size:15px; margin-top:2px; color:#C8102E;">$</span>
+            <span data-field="cash" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:32px;">32.99</span>
+          </span>
+        </div>
+        <div data-field="enroll" contenteditable="true" style="flex:none; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#141414; text-align:center; padding:6px 0 5px;">Ask a cashier to enroll &mdash; free</div>
+      </div>
+      <div style="background:#C8102E; color:#fff; display:flex; align-items:center; justify-content:space-between; gap:6px; padding:5px 11px;">
+        <span style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; letter-spacing:.07em; text-transform:uppercase;">Card $<span data-field="card" contenteditable="true">33.49</span></span>
+        <span style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:10px; letter-spacing:.1em; text-transform:uppercase;"><span data-field="terms" contenteditable="true">Limits apply</span> &middot; <span data-field="sku" contenteditable="true">000000</span></span>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"size":{"editor":"enum","options":["vertical","horizontal","tag"],"default":"vertical"},"mode":{"editor":"enum","options":["mult","bonus"],"default":"mult"}}'>
+class Component extends DCLogic {
+  state = { size: null, mode: null };
+
+  example() {
+    return { store: "The Tap House", program: "Bourbon Points Club", product: "Elijah Craig Small Batch",
+      size: "750 ml", mult: "10", bonus: "500", cash: "32.99", card: "33.49", sku: "000000",
+      dates: "This month only \u2014 July 1\u201331", enroll: "Ask a cashier to enroll \u2014 it\u2019s free", terms: "Limits apply." };
+  }
+  blank() {
+    return { store: "Store Name", program: "Bourbon Points Club", product: "Product Name", size: "750 ml",
+      mult: "10", bonus: "500", cash: "0.00", card: "0.00", sku: "000000", dates: "Dates here",
+      enroll: "Ask a cashier to enroll \u2014 it\u2019s free", terms: "Limits apply." };
+  }
+
+  componentDidMount() {
+    const saved = this.load();
+    if (saved) this.setState({ size: saved.__size || null, mode: saved.__mode || null });
+    this.bind();
+    this.seed();
+    this.applyPage();
+  }
+  componentDidUpdate() { this.bind(); this.seed(); this.applyPage(); }
+
+  curSize() { return this.state.size ?? this.props.size ?? 'vertical'; }
+  curMode() { return this.state.mode ?? this.props.mode ?? 'mult'; }
+
+  applyPage() {
+    const sizes = { vertical: '8.5in 11in', horizontal: '11in 8.5in', tag: '5in 8in' };
+    const st = document.getElementById('dyn-page');
+    if (st) st.textContent = '@page { size: ' + sizes[this.curSize()] + '; margin: 0; }';
+    document.body.classList.toggle('size-tag', this.curSize() === 'tag');
+  }
+
+  fieldsList() { return Array.from(document.querySelectorAll('[data-field]')); }
+  bind() {
+    this.fieldsList().forEach(f => {
+      if (f.__bound) return;
+      f.__bound = true;
+      f.addEventListener('input', () => this.save());
+      f.addEventListener('blur', () => this.save());
+    });
+  }
+  seed() {
+    const saved = this.load(); if (!saved) return;
+    this.fieldsList().forEach(f => { const k = f.getAttribute('data-field'); if (saved[k] != null && f.textContent.trim() !== saved[k]) f.textContent = saved[k]; });
+  }
+  read() {
+    const o = Object.assign({}, this.load() || {}, { __size: this.curSize(), __mode: this.curMode() });
+    this.fieldsList().forEach(f => o[f.getAttribute('data-field')] = f.textContent.trim());
+    return o;
+  }
+  save() { try { localStorage.setItem('bourbonPointsAll', JSON.stringify(this.read())); } catch(e){} }
+  load() { try { return JSON.parse(localStorage.getItem('bourbonPointsAll') || 'null'); } catch(e){ return null; } }
+  apply(vals) { this.fieldsList().forEach(f => { const k = f.getAttribute('data-field'); if (vals[k] != null) f.textContent = vals[k]; }); this.save(); }
+  setSize(v) { this.save(); this.setState({ size: v }, () => { this.seed(); this.save(); }); }
+  setMode(m) { this.save(); this.setState({ mode: m }, () => { this.seed(); this.save(); }); }
+
+  renderVals() {
+    const size = this.curSize(), mode = this.curMode();
+    return {
+      isVertical: size === 'vertical', isHorizontal: size === 'horizontal', isTag: size === 'tag',
+      isMult: mode === 'mult', isBonus: mode === 'bonus',
+      onVertical: () => this.setSize('vertical'),
+      onHorizontal: () => this.setSize('horizontal'),
+      onTag: () => this.setSize('tag'),
+      onMult: () => this.setMode('mult'),
+      onBonus: () => this.setMode('bonus'),
+      onPrint: () => window.print(),
+      onExample: () => this.apply(this.example()),
+      onBlank: () => this.apply(this.blank()),
+    };
+  }
+}
+</script>
+</body>
+</html>

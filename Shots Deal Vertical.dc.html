@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;600;700&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { background: #2b2b2b; font-family: 'Archivo', sans-serif; }
+  [contenteditable]:focus { outline: 2px dashed #C8102E; outline-offset: 3px; border-radius: 2px; }
+  [contenteditable]:hover:not(:focus) { outline: 1px dashed rgba(200,16,46,.45); outline-offset: 3px; border-radius: 2px; }
+  @page { size: 8.5in 11in; margin: 0; }
+  @media print {
+    body { background: #fff; }
+    .no-print { display: none !important; }
+    .wrap { padding: 0 !important; min-height: 0 !important; display: block !important; gap: 0 !important; }
+    .flap { margin: 0 auto !important; }
+    .sign { box-shadow: none !important; margin: 0 auto !important; }
+    .price-badge { box-shadow: none !important; }
+    [contenteditable]:hover, [contenteditable]:focus { outline: none !important; }
+  }
+</style>
+</helmet>
+
+<div class="wrap" style="min-height:100vh; display:flex; flex-direction:column; align-items:center; gap:22px; padding:26px 16px 60px;">
+
+  <div class="no-print" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center; background:#1a1a1a; border:1px solid #3a3a3a; border-radius:12px; padding:12px 16px;">
+    <span style="color:#f2ece0; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.14em; text-transform:uppercase; margin-right:6px;">Shots Deal Sign &mdash; click text to edit</span>
+    <button onClick="{{ onPrint }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:#fff; background:#C8102E; border:none; border-radius:8px; padding:9px 18px;">Print / Save PDF</button>
+    <button onClick="{{ onExample }}" style="cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:15px; letter-spacing:.06em; text-transform:uppercase; color:#f2ece0; background:#333; border:1px solid #4a4a4a; border-radius:8px; padding:9px 16px;">Reset text</button>
+  </div>
+
+  <div class="flap" style="width:7.7in; height:1.5in; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding-bottom:6px; gap:6px;">
+    <span style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px; letter-spacing:.28em; text-transform:uppercase; color:#b9b1a4;">Fold here &mdash; tuck under display box</span>
+    <div style="width:100%; border-top:2px dashed #cfc7b8;"></div>
+  </div>
+
+  <div class="sign" style="width:7.7in; height:8.7in; background:#FBF6EC; box-shadow:0 24px 60px rgba(0,0,0,.5); display:flex; flex-direction:column; overflow:hidden; position:relative;">
+
+    <!-- Header: store name -->
+    <div style="background:#141414; color:#FBF6EC; padding:0.2in 0.4in; display:flex; align-items:center; justify-content:center; gap:12px; border-bottom:6px solid #C8102E;">
+      <span style="color:#C8102E; font-size:22px;">&#9670;</span>
+      <span data-field="store" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:34px; letter-spacing:.16em; text-transform:uppercase; line-height:1; text-align:center;">The Tap House</span>
+      <span style="color:#C8102E; font-size:22px;">&#9670;</span>
+    </div>
+
+    <!-- Body -->
+    <div style="flex:1; display:flex; flex-direction:column; align-items:center; text-align:center; padding:0.4in 0.5in; min-height:0;">
+
+      <!-- Eyebrow -->
+      <div data-field="eyebrow" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:26px; letter-spacing:.24em; text-transform:uppercase; color:#C8102E;">50 ml Shots</div>
+
+      <!-- Count hero -->
+      <div style="display:flex; flex-direction:column; align-items:center; line-height:0.82; margin-top:0.16in;">
+        <div style="display:flex; align-items:baseline; gap:0.14in; color:#141414;">
+          <span data-field="count" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:220px;">10</span>
+          <span style="font-family:'Anton',sans-serif; font-size:70px; text-transform:uppercase;">Shots</span>
+        </div>
+      </div>
+
+      <!-- FOR -->
+      <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:38px; letter-spacing:.3em; text-transform:uppercase; color:#141414; margin-top:0.02in;">For</div>
+
+      <!-- Price badge -->
+      <div class="price-badge" style="width:3.1in; height:3.1in; border-radius:50%; background:#C8102E; box-shadow:0 14px 32px rgba(200,16,46,.4); border:7px solid #141414; display:flex; align-items:center; justify-content:center; margin-top:0.08in; transform:rotate(-6deg);">
+        <div style="display:flex; align-items:flex-start; color:#FBF6EC; line-height:0.78;">
+          <span style="font-family:'Anton',sans-serif; font-size:66px; margin-top:16px;">$</span>
+          <span data-field="price" contenteditable="true" style="font-family:'Anton',sans-serif; font-size:170px;">5</span>
+        </div>
+      </div>
+
+      <div style="flex:1;"></div>
+
+      <!-- While supplies last banner -->
+      <div style="width:100%; background:#141414; border-radius:14px; padding:0.2in 0.3in; display:flex; align-items:center; justify-content:center; gap:14px;">
+        <span style="color:#C8102E; font-size:24px;">&#10022;</span>
+        <span data-field="disclaimer" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:34px; letter-spacing:.14em; text-transform:uppercase; color:#FBF6EC; line-height:1;">While Supplies Last</span>
+        <span style="color:#C8102E; font-size:24px;">&#10022;</span>
+      </div>
+
+    </div>
+
+    <!-- Bottom mark -->
+    <div style="background:#C8102E; color:#fff; display:flex; align-items:center; justify-content:center; gap:12px; padding:0.14in 0.4in;">
+      <span style="font-size:18px;">&#9670;</span>
+      <span data-field="footnote" contenteditable="true" style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:17px; letter-spacing:.12em; text-transform:uppercase;">Mix &amp; Match &middot; No Rain Checks</span>
+      <span style="font-size:18px;">&#9670;</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  defaults() {
+    return { store:"The Tap House", eyebrow:"50 ml Shots", count:"10",
+      price:"5", disclaimer:"While Supplies Last", footnote:"Mix & Match · No Rain Checks" };
+  }
+
+  componentDidMount() {
+    const saved = this.load();
+    this.fieldsList().forEach(f => {
+      const k = f.getAttribute('data-field');
+      if (saved && saved[k] != null) f.textContent = saved[k];
+      f.addEventListener('input', () => this.save());
+      f.addEventListener('blur', () => this.save());
+    });
+  }
+
+  fieldsList() { return Array.from(document.querySelectorAll('[data-field]')); }
+  read() { const o = {}; this.fieldsList().forEach(f => o[f.getAttribute('data-field')] = f.textContent.trim()); return o; }
+  save() { try { localStorage.setItem('shotsDealV', JSON.stringify(this.read())); } catch(e){} }
+  load() { try { return JSON.parse(localStorage.getItem('shotsDealV') || 'null'); } catch(e){ return null; } }
+  apply(vals) { this.fieldsList().forEach(f => { const k = f.getAttribute('data-field'); if (vals[k] != null) f.textContent = vals[k]; }); this.save(); }
+
+  renderVals() {
+    return {
+      onPrint: () => window.print(),
+      onExample: () => this.apply(this.defaults()),
+    };
+  }
+}
+</script>
+</body>
+</html>
